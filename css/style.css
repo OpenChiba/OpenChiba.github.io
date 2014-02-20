@@ -67,6 +67,7 @@ a {
   color: #999999;
   /*font-size: 1.1em;*/
   font-size: 0.9em;
+  line-height: 10px;
 }
 
 #logo a:hover {
