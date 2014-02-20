@@ -6,5 +6,133 @@ title: CEiFD
 <h2 class="page-header">City Evolution in Fiscal Data</h2>
 
 <div class="row contact">
-ここにグラフを表示します。
+  <script type='text/javascript' src='http://code.jquery.com/jquery-2.0.0b1.js'></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script type="text/javascript" src="http://ad.xdomain.ne.jp/js/server-php.js"></script>
+
+<script type="text/javascript">
+$(function () {
+    var chart;
+    var nendos = ['S40','S41','S42','S43','S44','S45','S46','S47','S48','S49','S50','S51','S52','S53','S54','S55','S56','S57','S58','S59','S60','S61','S62','S63','H1','H2','H3','H4','H5','H6','H7','H8','H9','H10','H11','H12','H13','H14','H15','H16','H17','H18','H19','H20','H21','H22','H23','H24'];
+    var yosans = [6065,6961,7853,9548,12242,15525,19540,23570,31650,39560,49680,61040,68220,81840,98550,108220,119470,127130,128410,134880,144530,153780,165060,174930,201870,227580,230110,268580,289750,301230,315620,325820,334720,332020,333650,334180,342780,344430,338120,345600,341600,332300,357300,321300,335000,350370,358200,365840];
+    var shizeis = [4067,4409,5645,6573,7984,9894,12028,14972,20097,26752,30052,35979,42214,48668,55282,63537,69557,75095,80746,86042,94717,102392,111943,119436,129962,137997,150109,161640,168058,163544,170917,177743,178706,172277,173135,169085,168562,166249,159430,156950,163574,167704,177785,178213,172371,169515,170414,168968];
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                backgroundColor: null,
+                type: 'line'
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: nendos,
+                tickmarkPlacement: 'on',
+                title: {
+                    text: '年度'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '予算額'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value ;
+                    }
+                },
+                min: 0,
+                max: 400000
+            },
+            tooltip: {
+                formatter: function() {
+                    return ''+
+                        this.x +': '+ Highcharts.numberFormat(this.y, 0, ',') +' 百万円';
+                }
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    lineColor: '#666666',
+                    lineWidth: 1,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#666666'
+                    }
+                }
+            },
+            legend:{
+            	align: 'bottom',
+            	x: 275,
+            	borderColor: null
+            },
+
+            credits: {
+            	enabled: false
+            },
+            series: [{
+                name: '予算',
+                data: yosans
+            }, {
+                name: '市税',
+                data: shizeis
+            }]
+        });
+    });
+
+$('#slider').slider({
+
+min: 1965,
+max: 2012,
+value: 2012,
+step: 1,
+
+slide: function(event, ui) {
+	$('#slider_value').html(ui.value);
+
+    var newdata1 = [];
+    for (var i=0 ; i < nendos.length ; i++) {
+        if (ui.value - 1965 < i ) {
+            newdata1.push(null);
+        } else {
+            newdata1.push(yosans[i]);
+        }
+    }
+
+    var newdata2 = [];
+    for (var i=0 ; i < nendos.length ; i++) {
+        if (ui.value - 1965 < i ) {
+            newdata2.push(null);
+        } else {
+            newdata2.push(shizeis[i]);
+        }
+    }
+    
+    chart.series[0].setData (newdata1);
+    chart.series[1].setData (newdata2);
+},
+stop: function(event, ui) {
+    
+}
+});
+
+    
+});
+
+</script>
+
+<div id="container" style="width: 1200px; height: 500px; margin: 0 auto"></div>
+
+<center>
+	<div id="slidertitle">年度を選択</div>
+	<div id="slider" style="width: 1200px"></div>
+	<div id="slider_value">2012</div>
+</center>
+
 </div>
