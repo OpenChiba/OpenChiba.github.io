@@ -418,7 +418,7 @@
 
     {
       "num_entries": 1,
-      "amount": 1.0,
+      "amount": 0.0,
       "cofog1": {
         "taxonomy": "cofog1",
         "html_url": "http://openspending.org/yokohama_yosan_percentage/cofog1/01",
