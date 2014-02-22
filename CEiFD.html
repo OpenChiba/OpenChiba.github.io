@@ -24,6 +24,7 @@ $(function () {
                 renderTo: 'container',
                 backgroundColor: null,
                 type: 'line',
+                marginRight: 100
             },
             title: {
                 text: '50年間を振り返ると （人口、財政規模、市税）'
@@ -40,7 +41,8 @@ $(function () {
             },
             yAxis: [{
                 title: {
-                    text: '予算額（百万円）'
+                    text: '予算額（百万円）',
+                    margin: 40
                 },
                 labels: {
                     formatter: function() {
@@ -51,7 +53,8 @@ $(function () {
                 max: 400000
             },{
                 title: {
-                    text: '住民基本台帳人口（人）'
+                    text: '住民基本台帳人口（人）',
+                    margin: 40
                 },
                 labels: {
                     formatter: function() {
@@ -107,13 +110,19 @@ $(function () {
     });
 
     $('#slider').slider({
+        animate: 'slow',
+        range: 'min',
         min: 1965,
         max: 2012,
         value: 2012,
         step: 1,
 
         slide: function(event, ui) {
-            $('#slider_value').html(ui.value);
+            if (ui.value >= 1989) {
+                $('#slider_value').html('平成' + (ui.value - 1988) + '年（西暦' + ui.value + '年）');
+            } else {
+                $('#slider_value').html('昭和' + (ui.value - 1925) + '年（西暦' + ui.value + '年）');
+            }
 
             var newdata1 = [];
             for (var i=0 ; i < nendos.length ; i++) {
@@ -142,9 +151,15 @@ $(function () {
                 }
             }
 
+            chart.series[0].setVisible(false);
             chart.series[0].setData (newdata1);
+            chart.series[0].setVisible(true,true);
+            chart.series[1].setVisible(false);
             chart.series[1].setData (newdata2);
+            chart.series[1].setVisible(true,true);
+            chart.series[2].setVisible(false);
             chart.series[2].setData (newdata3);
+            chart.series[2].setVisible(true,true);
         },
         stop: function(event, ui) {
         }
@@ -155,9 +170,9 @@ $(function () {
 <div id="container" style="width: 1000px; height: 600px; margin: 0 auto"></div>
 
 <center>
-	<div id="slidertitle">年度を選択</div>
+	<!--div id="slidertitle">年度を選択</div-->
 	<div id="slider" style="width: 1000px"></div>
-	<div id="slider_value">2012</div>
+	<div id="slider_value">平成24年（西暦2012年）</div>
 </center>
 
 一人当たりの負担と受益の割
